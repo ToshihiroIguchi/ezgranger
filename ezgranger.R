@@ -111,6 +111,8 @@ auto.diff <- function(vec, differences = NULL, test = "adf", p.th = 0.05){
 df.num.names <- function(df){
   
   ret <- colnames(df)[sapply(df, is.worth)]
+  ret <- as.vector(as.matrix(ret))
+  
   return(ret)
 
 }

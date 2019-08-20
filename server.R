@@ -17,17 +17,28 @@ shinyServer(function(input, output) {
     print(input$file$name)
     
     #ファイル読み込み
-    raw.data <- reactive({read.csv(input$file$datapath)})
+    raw.data <- reactive({
+      read.csv(input$file$datapath)
+      })
+    
+    #解析可能な項目のなまえ
+    num.names <- reactive({
+      df.num.names(raw.data())
+    })
     
     #時系列1選択
-    output$tr1.name <- renderUI(selectInput("tr1.name", "Trend1 name", 
-                                            choices = df.num.names(raw.data()), 
-                                            selected = df.num.names(raw.data())[1]))
+    output$tr1.name <- renderUI({
+      selectInput("tr1.name", "Trend1 name",
+                  choices = num.names(),
+                  selected = num.names()[1])
+      })
     
     #時系列2選択
-    output$tr2.name <- renderUI(selectInput("tr2.name", "Trend2 name", 
-                                            choices = df.num.names(raw.data()), 
-                                            selected = df.num.names(raw.data())[2]))
+    output$tr2.name <- renderUI({
+      selectInput("tr2.name", "Trend2 name",
+                  choices = num.names(), 
+                  selected = num.names()[2])
+      })
     
     #p値の閾値
     output$p.th <- renderUI({
@@ -36,14 +47,16 @@ shinyServer(function(input, output) {
     })
     
     #時系列1の差分
-    output$tr1.diff <- renderUI(selectInput("tr1.diff", "Trend1 iterated differences",
-                                            choices = diff.vec))
-    
+    output$tr1.diff <- renderUI({
+      selectInput("tr1.diff", "Trend1 iterated differences",
+                  choices = diff.vec)
+      })
     
     #時系列2の差分
-    output$tr2.diff <- renderUI(selectInput("tr2.diff", "Trend2 iterated differences",
-                                            choices = diff.vec))
-    
+    output$tr2.diff <- renderUI({
+      selectInput("tr2.diff", "Trend2 iterated differences",
+                  choices = diff.vec)
+      })
     
     #時系列の範囲
     output$tr.range <- renderUI({
@@ -92,9 +105,7 @@ shinyServer(function(input, output) {
         rect = FALSE ,
         x.lab = NULL
       )})
-    
 
-    
     #Grangerの因果性検定を自動差分を取った時系列で行う
     granger <- reactive({
       ezgranger(trend1 = tr1.diff.vec(), 

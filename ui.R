@@ -11,11 +11,15 @@ shinyUI(fluidPage(
       
       #ファイル読み込み
       fileInput("file", "Data file (.csv)", accept = c(".csv")),
+      
       htmlOutput("tr1.name"),
       htmlOutput("tr2.name"),
+      
       htmlOutput("p.th"),
+      
       htmlOutput("tr1.diff"),
       htmlOutput("tr2.diff"),
+      
       htmlOutput("tr.range")
       
     ),
@@ -44,13 +48,10 @@ shinyUI(fluidPage(
                                    
                            
                            #決定論的な説明変数の型
-                           
-                             selectInput("var.type", "Type of deterministic regressors to include",
+                           selectInput("var.type", "Type of deterministic regressors to include",
                                          choices = c("const", "trend", "both", "none"),
                                          selected = "const"),
-                           
-                           
-                             selectInput("ord.sel", "Order selection criteria",
+                           selectInput("ord.sel", "Order selection criteria",
                                          choices = c("AIC(n)", "HQ(n)", "SC(n)", "FPE(n)"),
                                          selected = "AIC(n)")
                            

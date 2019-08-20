@@ -9,7 +9,7 @@ First, access [CRAN](https://cran.r-project.org/), download R and install.
 You can install from R console.
 First install related packages.
 
-    install.packages(c("shiny", "vars", "ggplot2"))
+    install.packages(c("shiny", "tseries", "vars", "ggplot2"))
 
 If packages are installed, it can be started from R console with the following command.
     
