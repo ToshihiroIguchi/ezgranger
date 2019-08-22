@@ -1,5 +1,5 @@
 #ライブラリ読み込み
-library(tseries) #installなしでOK
+library(tseries) 
 library(vars)
 library(ggplot2)
 library(grid) #installなしでOK
@@ -127,6 +127,9 @@ trend.df <- function(trend1, trend2, name.tr1, name.tr2){
   n.tr1 <- length(trend1)
   n.tr2 <- length(trend2)
   
+  trend1 <- as.vector(trend1)
+  trend2 <- as.vector(trend2)
+  
   if(n.tr1 == n.tr2){
     df <- data.frame(tr1 = trend1, tr2 = trend2)
   }
@@ -251,11 +254,14 @@ plot.trend <- function(trend1, trend2, name.tr1, name.tr2,
     range <- c(1, nrow(df))
   }
   
+  gg.theme <- theme(axis.text = element_text(size = text.size),
+                    axis.title.x = element_text(size = text.size),
+                    axis.title.y = element_text(size = text.size))
   
   #ggplot
   gg1 <- ggplot(data = df, aes_(x = as.name("No"), y = as.name(name.tr1))) + geom_line() + 
     xlab(x.lab) + ylab(name.tr1) +
-    theme(axis.text = element_text(size = text.size)) +
+    gg.theme +
     if(rect){annotate("rect", xmin = range[1], xmax = range[2], 
              ymin = min(df[, name.tr1]), ymax = max(df[, name.tr1]),
              alpha = 0.1, fill = "green")
@@ -265,7 +271,7 @@ plot.trend <- function(trend1, trend2, name.tr1, name.tr2,
   
   gg2 <- ggplot(data = df, aes_(x = as.name("No"), y = as.name(name.tr2))) + geom_line() + 
     xlab(x.lab) + ylab(name.tr2) +
-    theme(axis.text = element_text(size = text.size)) +
+    gg.theme +
     if(rect){annotate("rect", xmin = range[1], xmax = range[2], 
              ymin = min(df[, name.tr2]), ymax = max(df[, name.tr2]),
              alpha = 0.1, fill = "green")

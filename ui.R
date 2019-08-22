@@ -1,6 +1,12 @@
 library(shiny)
 
+#タイトルの定義
 ui.title <- "Easy Granger causality"
+
+#単位根検定の方法
+diff.test <- c("adf", "pp")
+names(diff.test) <- c("Augmented Dickey–Fuller Test", "Phillips–Perron Unit Root Test")
+
 
 shinyUI(fluidPage(
   
@@ -40,6 +46,10 @@ shinyUI(fluidPage(
       
                   tabPanel("Setting",
                            
+                           #単位根検定の方法
+                           selectInput("ur.test", "Method of unit root test",
+                                       choices = diff.test),
+                           
                            
                            #ラグの最大次数
                            numericInput("maxlag", "Highest lag order", 
@@ -53,7 +63,10 @@ shinyUI(fluidPage(
                                          selected = "const"),
                            selectInput("ord.sel", "Order selection criteria",
                                          choices = c("AIC(n)", "HQ(n)", "SC(n)", "FPE(n)"),
-                                         selected = "AIC(n)")
+                                         selected = "AIC(n)"),
+                           
+                           #グラフの文字の大きさ
+                           numericInput("font.size", "Font size", value = 12, min = 1, max = NA, step = 0.5)
                            
                            
                            
